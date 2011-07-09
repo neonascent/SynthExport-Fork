@@ -1,0 +1,102 @@
+﻿<Window x:Class="SynthExport.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SynthExport" Width="403" SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="613">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Border Grid.Row="0" Background="Black" Padding="5">            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Foreground="White" FontSize="24" Text="SynthExport" Margin="0,0,0,80" />
+                <TextBlock Name="textBlockWebsite" Grid.Column="1" VerticalAlignment="Bottom" Foreground="White" FontSize="12" Cursor="Hand" Margin="0,0,10,0"
+                           ToolTip="Go to the Codeplex website for news and updates" MouseDown="textBlockWebsite_MouseDown" Text="Website" />                
+                <TextBlock Grid.Column="2" VerticalAlignment="Bottom" Foreground="White" FontSize="12" Text="1.1.0" />
+                <TextBlock Cursor="Hand" FontSize="12" Foreground="White" Margin="0,0,75,32" Name="textBlock2" Text="CameraExport mod v1.2 by Josh Harle http://tacticalspace.org" ToolTip="Go to the Codeplex website for news and updates" VerticalAlignment="Bottom" MouseDown="textBlock2_MouseDown" TextWrapping="Wrap" Height="42" />
+            </Grid>
+        </Border>        
+        
+        <GroupBox Name="groupBox1" Grid.Row="1" Header="Step 1: Specify photosynth" Margin="5">                
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
+                <RadioButton Name="radioButtonFromUrl" Grid.Row="0" VerticalAlignment="Center" Margin="0,0,5,0" IsChecked="True">From URL:</RadioButton>
+                <TextBox Name="textBoxUrl" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" IsEnabled="{Binding ElementName=radioButtonFromUrl, Path=IsChecked}"
+                         KeyDown="textBox_KeyDown">
+                    <TextBox.ToolTip>
+                        <TextBlock>
+                            Go to your synth on photosynth.net and copy the address from your browser.
+                            <LineBreak />
+                            Alternatively, you can enter the URL of a photosynth on Bing Maps.
+                        </TextBlock>
+                    </TextBox.ToolTip>
+                </TextBox>
+                
+                <RadioButton Name="radioButtonFromFile" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,5,5,0">From file:</RadioButton>
+                <TextBox Name="textBoxFile" Grid.Row="1" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding ElementName=radioButtonFromFile, Path=IsChecked}"
+                         ToolTip="Enter the path of the collection.synth.bin file that has been created temporarily by the synther (should reside in %tmp%\Photosynther)"
+                         KeyDown="textBox_KeyDown" />
+                <Button Name="buttonBrowse" Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" IsEnabled="{Binding ElementName=radioButtonFromFile, Path=IsChecked}" Click="buttonBrowse_Click">Browse...</Button>
+                
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Name="groupBox2" Grid.Row="2" Header="Step 2: Select data to export" Margin="5,0">
+            <StackPanel Margin="5" Height="90">
+                <CheckBox Name="checkBoxPointClouds" Grid.Row="0" Grid.Column="0" Content="Point clouds" VerticalAlignment="Center" />
+
+                <StackPanel Orientation="Horizontal" Margin="25,5,5,5" IsEnabled="{Binding ElementName=checkBoxPointClouds, Path=IsChecked}">                
+                    <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,5,0">Output format:</TextBlock>
+                    <ComboBox Grid.Row="0" Grid.Column="2" Name="comboBoxOutputFormat" SelectedIndex="2" HorizontalAlignment="Left"
+                              ToolTip="Choose one of the output formats for the point cloud">
+                        <ComboBoxItem>OBJ</ComboBoxItem>
+                        <ComboBoxItem>PLY (ASCII)</ComboBoxItem>
+                        <ComboBoxItem>PLY (binary)</ComboBoxItem>
+                        <ComboBoxItem>VRML</ComboBoxItem>
+                        <ComboBoxItem>X3D</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                
+                <CheckBox Name="checkBoxCameraParameters" Grid.Row="1" Grid.Column="0" Content="Camera parameters" VerticalAlignment="Center" />
+                <CheckBox Content="3DS Max Camera Projections" Grid.Column="0" Grid.Row="1" Name="checkBoxMaxScript" Checked="checkBox1_Checked" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Name="groupBox3" Grid.Row="3" Header="Step 3: Export" Margin="5,0,5,5">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Name="statusTextBlock" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Ready.</TextBlock>
+
+                <Button Grid.Row="0" Grid.Column="2" Name="buttonExport" ToolTip="Click to start the export process"
+                        Click="buttonExport_Click">Export...</Button>
+
+                <ProgressBar Name="progressBar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="16" Margin="0,5,0,0" />
+            </Grid>            
+        </GroupBox>
+    </Grid>
+</Window>

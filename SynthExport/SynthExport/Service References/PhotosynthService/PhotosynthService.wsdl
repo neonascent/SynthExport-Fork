@@ -1,0 +1,1495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://labs.live.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://labs.live.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://labs.live.com/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="CreatePanorama">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tags" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreatePanoramaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreatePanoramaResult" type="tns:CreateCollectionResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CreateCollectionResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="tns:Result" />
+          <s:element minOccurs="1" maxOccurs="1" name="CollectionId" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="UploadUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="Result">
+        <s:restriction base="s:string">
+          <s:enumeration value="InvalidPuidFormat" />
+          <s:enumeration value="CannotFindCollection" />
+          <s:enumeration value="CannotFindUser" />
+          <s:enumeration value="MalformedManifest" />
+          <s:enumeration value="MissingCollectionEntry" />
+          <s:enumeration value="EncounteredUnaccountedFile" />
+          <s:enumeration value="CollectionAlreadyExists" />
+          <s:enumeration value="AlreadyCommittedCollection" />
+          <s:enumeration value="AuthenticationError" />
+          <s:enumeration value="UnknownError" />
+          <s:enumeration value="UploadsAreDisabled" />
+          <s:enumeration value="CannotProcessCollection" />
+          <s:enumeration value="UserQuotaExceededTheLimit" />
+          <s:enumeration value="NotCollectionOwner" />
+          <s:enumeration value="NotLoggedIn" />
+          <s:enumeration value="InvalidSynthData" />
+          <s:enumeration value="SynthEditsAreDisabled" />
+          <s:enumeration value="InvalidArgument" />
+          <s:enumeration value="OK" />
+          <s:enumeration value="CollectionIsAvailable" />
+          <s:enumeration value="CollectionIsDeleted" />
+          <s:enumeration value="CollectionIsProcessing" />
+          <s:enumeration value="CollectionIsAvailableWithoutTags" />
+          <s:enumeration value="CollectionIsProcessingWithoutTags" />
+          <s:enumeration value="CollectionNotEdited" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="AddPanoramaPhoto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PanoramaId" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="FileId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="FileChunkCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddPanoramaPhotoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddPanoramaPhotoResult" type="tns:AddPhotoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AddPhotoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="tns:Result" />
+          <s:element minOccurs="0" maxOccurs="1" name="PhotoUrl" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Action" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CommitPanorama">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PanoramaId" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="Manifest" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CommitPanoramaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CommitPanoramaResult" type="tns:CommitResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CommitResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="tns:Result" />
+          <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CancelPanorama">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PanoramaId" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="Reason" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelPanoramaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CancelPanoramaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateSynth">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tags" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateSynthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateSynthResult" type="tns:CreateCollectionResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSynthPhoto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CollectionId" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImageHash" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhotoName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSynthPhotoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddSynthPhotoResult" type="tns:AddPhotoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CommitSynth">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CollectionId" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="Manifest" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CommitSynthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CommitSynthResult" type="tns:CommitResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelSynth">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CollectionId" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="Reason" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelSynthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CancelSynthResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetServerInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ClientVersion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetServerInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetServerInfoResult" type="tns:ServerInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServerInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="tns:Result" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxUploadSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RecommendUploadSize" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SyntherDownloadUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IsClientUpdateRequired">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ClientVersion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsClientUpdateRequiredResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsClientUpdateRequiredResult" type="tns:Result" />
+            <s:element minOccurs="0" maxOccurs="1" name="DownloadUrl" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserStatus">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUserStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserStatusResult" type="tns:Result" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserStatus" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="StorageQuota" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="StorageConsumption" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RevertEdit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CollectionId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RevertEditResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RevertEditResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportUploadStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="statusCode" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReportUploadStatusResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCollection">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="collectionId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCollectionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCollectionResult" type="tns:PhotosynthResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PhotosynthResponse">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:LiveLabsResponse">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Collections" type="tns:ArrayOfPhotosynthCollection" />
+              <s:element minOccurs="0" maxOccurs="1" name="Users" type="tns:ArrayOfUserInfo" />
+              <s:element minOccurs="1" maxOccurs="1" name="Result" type="tns:Result" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="LiveLabsResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Errors" type="tns:ResponseError" />
+        </s:sequence>
+        <s:attribute name="ResponseCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ResponseError">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DetailMessage" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ErrorCode" type="s:string" />
+        <s:attribute name="Message" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfPhotosynthCollection">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PhotosynthCollection" nillable="true" type="tns:PhotosynthCollection" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PhotosynthCollection">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Images" type="tns:ArrayOfPhotosynthImage" />
+          <s:element minOccurs="1" maxOccurs="1" name="SynthinessScore" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MegaPixels" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="CollectionType" type="tns:CollectionType" />
+          <s:element minOccurs="1" maxOccurs="1" name="ImageCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ThumbnailUrl" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OwnerUserGuid" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="OwnerFriendlyName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CollectionUrl" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UploadDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsDeleted" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrivacyLevel" type="tns:PrivacyLevel" />
+          <s:element minOccurs="1" maxOccurs="1" name="Viewings" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FavoriteCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsEdited" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="StartingImageUrl" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CollectionOriginalUrl" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Rank" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="RankModifier" type="s:short" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPhotosynthImage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PhotosynthImage" nillable="true" type="tns:PhotosynthImage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PhotosynthImage">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="CollectionId" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="PhotoUrl" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FeaturesUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="CollectionType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Undefined" />
+          <s:enumeration value="Synth" />
+          <s:enumeration value="Panorama" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PrivacyLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="Public" />
+          <s:enumeration value="Unlisted" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfUserInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UserInfo" nillable="true" type="tns:UserInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="UserId" type="s:unsignedLong" />
+          <s:element minOccurs="1" maxOccurs="1" name="Guid" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="FriendlyName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCollectionStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="collectionId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCollectionStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCollectionStatusResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCollectionData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="collectionId" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="incrementEmbedCount" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCollectionDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCollectionDataResult" type="tns:CollectionResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CollectionResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="tns:Result" />
+          <s:element minOccurs="1" maxOccurs="1" name="CollectionType" type="tns:CollectionType" />
+          <s:element minOccurs="0" maxOccurs="1" name="DzcUrl" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="JsonUrl" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CollectionRoot" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrivacyLevel" type="tns:PrivacyLevel" />
+          <s:element minOccurs="0" maxOccurs="1" name="GeoAlignment" type="tns:GeoAlignment" />
+          <s:element minOccurs="0" maxOccurs="1" name="GeoPushPin" type="tns:GeoInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GeoAlignment">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ZoomLevel" type="s:unsignedByte" />
+          <s:element minOccurs="1" maxOccurs="1" name="Scale" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="AltitudeDelta" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Rotation" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="AlignmentCtrRadius" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="AlignmentCtrOffsetX" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="AlignmentCtrOffsetY" type="s:float" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GeoInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ZoomLevel" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IncrementSynthViewCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="collectionId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:ViewType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="ViewType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Site" />
+          <s:enumeration value="Embed" />
+          <s:enumeration value="Map" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="IncrementSynthViewCountResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="DeleteGeotag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="collectionId" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="alignmentOnly" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteGeotagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteGeotagResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RefreshService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="applicationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RefreshServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RefreshServiceResult" type="tns:LiveLabsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Ping">
+        <s:complexType />
+      </s:element>
+      <s:element name="PingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWebServiceStats">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="applicationGuid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWebServiceStatsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetWebServiceStatsResult" type="tns:LiveLabsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateCollectionResult" nillable="true" type="tns:CreateCollectionResult" />
+      <s:element name="ServerInfo" nillable="true" type="tns:ServerInfo" />
+      <s:element name="PhotosynthResponse" nillable="true" type="tns:PhotosynthResponse" />
+      <s:element name="LiveLabsResponse" nillable="true" type="tns:LiveLabsResponse" />
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreatePanoramaSoapIn">
+    <wsdl:part name="parameters" element="tns:CreatePanorama" />
+  </wsdl:message>
+  <wsdl:message name="CreatePanoramaSoapOut">
+    <wsdl:part name="parameters" element="tns:CreatePanoramaResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddPanoramaPhotoSoapIn">
+    <wsdl:part name="parameters" element="tns:AddPanoramaPhoto" />
+  </wsdl:message>
+  <wsdl:message name="AddPanoramaPhotoSoapOut">
+    <wsdl:part name="parameters" element="tns:AddPanoramaPhotoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CommitPanoramaSoapIn">
+    <wsdl:part name="parameters" element="tns:CommitPanorama" />
+  </wsdl:message>
+  <wsdl:message name="CommitPanoramaSoapOut">
+    <wsdl:part name="parameters" element="tns:CommitPanoramaResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelPanoramaSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelPanorama" />
+  </wsdl:message>
+  <wsdl:message name="CancelPanoramaSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelPanoramaResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateSynthSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateSynth" />
+  </wsdl:message>
+  <wsdl:message name="CreateSynthSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateSynthResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSynthPhotoSoapIn">
+    <wsdl:part name="parameters" element="tns:AddSynthPhoto" />
+  </wsdl:message>
+  <wsdl:message name="AddSynthPhotoSoapOut">
+    <wsdl:part name="parameters" element="tns:AddSynthPhotoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CommitSynthSoapIn">
+    <wsdl:part name="parameters" element="tns:CommitSynth" />
+  </wsdl:message>
+  <wsdl:message name="CommitSynthSoapOut">
+    <wsdl:part name="parameters" element="tns:CommitSynthResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelSynthSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelSynth" />
+  </wsdl:message>
+  <wsdl:message name="CancelSynthSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelSynthResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetServerInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetServerInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetServerInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetServerInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsClientUpdateRequiredSoapIn">
+    <wsdl:part name="parameters" element="tns:IsClientUpdateRequired" />
+  </wsdl:message>
+  <wsdl:message name="IsClientUpdateRequiredSoapOut">
+    <wsdl:part name="parameters" element="tns:IsClientUpdateRequiredResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetUserStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="RevertEditSoapIn">
+    <wsdl:part name="parameters" element="tns:RevertEdit" />
+  </wsdl:message>
+  <wsdl:message name="RevertEditSoapOut">
+    <wsdl:part name="parameters" element="tns:RevertEditResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReportUploadStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:ReportUploadStatus" />
+  </wsdl:message>
+  <wsdl:message name="ReportUploadStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:ReportUploadStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCollection" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCollectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCollectionStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCollectionStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCollectionData" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCollectionDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IncrementSynthViewCountSoapIn">
+    <wsdl:part name="parameters" element="tns:IncrementSynthViewCount" />
+  </wsdl:message>
+  <wsdl:message name="IncrementSynthViewCountSoapOut">
+    <wsdl:part name="parameters" element="tns:IncrementSynthViewCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteGeotagSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteGeotag" />
+  </wsdl:message>
+  <wsdl:message name="DeleteGeotagSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteGeotagResponse" />
+  </wsdl:message>
+  <wsdl:message name="RefreshServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:RefreshService" />
+  </wsdl:message>
+  <wsdl:message name="RefreshServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:RefreshServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="PingSoapIn">
+    <wsdl:part name="parameters" element="tns:Ping" />
+  </wsdl:message>
+  <wsdl:message name="PingSoapOut">
+    <wsdl:part name="parameters" element="tns:PingResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceStatsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetWebServiceStats" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceStatsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetWebServiceStatsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreatePanoramaHttpGetIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="tags" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CreatePanoramaHttpGetOut">
+    <wsdl:part name="Body" element="tns:CreateCollectionResult" />
+  </wsdl:message>
+  <wsdl:message name="CreateSynthHttpGetIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="tags" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CreateSynthHttpGetOut">
+    <wsdl:part name="Body" element="tns:CreateCollectionResult" />
+  </wsdl:message>
+  <wsdl:message name="GetServerInfoHttpGetIn">
+    <wsdl:part name="clientVersion" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetServerInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:ServerInfo" />
+  </wsdl:message>
+  <wsdl:message name="ReportUploadStatusHttpGetIn">
+    <wsdl:part name="statusCode" type="s:string" />
+    <wsdl:part name="fileName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ReportUploadStatusHttpGetOut" />
+  <wsdl:message name="GetCollectionHttpGetIn">
+    <wsdl:part name="collectionId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionHttpGetOut">
+    <wsdl:part name="Body" element="tns:PhotosynthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IncrementSynthViewCountHttpGetIn">
+    <wsdl:part name="collectionId" type="s:string" />
+    <wsdl:part name="type" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IncrementSynthViewCountHttpGetOut" />
+  <wsdl:message name="RefreshServiceHttpGetIn">
+    <wsdl:part name="applicationGuid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RefreshServiceHttpGetOut">
+    <wsdl:part name="Body" element="tns:LiveLabsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PingHttpGetIn" />
+  <wsdl:message name="PingHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceStatsHttpGetIn">
+    <wsdl:part name="applicationGuid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceStatsHttpGetOut">
+    <wsdl:part name="Body" element="tns:LiveLabsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreatePanoramaHttpPostIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="tags" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CreatePanoramaHttpPostOut">
+    <wsdl:part name="Body" element="tns:CreateCollectionResult" />
+  </wsdl:message>
+  <wsdl:message name="CreateSynthHttpPostIn">
+    <wsdl:part name="name" type="s:string" />
+    <wsdl:part name="tags" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CreateSynthHttpPostOut">
+    <wsdl:part name="Body" element="tns:CreateCollectionResult" />
+  </wsdl:message>
+  <wsdl:message name="GetServerInfoHttpPostIn">
+    <wsdl:part name="clientVersion" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetServerInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:ServerInfo" />
+  </wsdl:message>
+  <wsdl:message name="ReportUploadStatusHttpPostIn">
+    <wsdl:part name="statusCode" type="s:string" />
+    <wsdl:part name="fileName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ReportUploadStatusHttpPostOut" />
+  <wsdl:message name="GetCollectionHttpPostIn">
+    <wsdl:part name="collectionId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCollectionHttpPostOut">
+    <wsdl:part name="Body" element="tns:PhotosynthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IncrementSynthViewCountHttpPostIn">
+    <wsdl:part name="collectionId" type="s:string" />
+    <wsdl:part name="type" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IncrementSynthViewCountHttpPostOut" />
+  <wsdl:message name="RefreshServiceHttpPostIn">
+    <wsdl:part name="applicationGuid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RefreshServiceHttpPostOut">
+    <wsdl:part name="Body" element="tns:LiveLabsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PingHttpPostIn" />
+  <wsdl:message name="PingHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceStatsHttpPostIn">
+    <wsdl:part name="applicationGuid" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetWebServiceStatsHttpPostOut">
+    <wsdl:part name="Body" element="tns:LiveLabsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PhotosynthServiceSoap">
+    <wsdl:operation name="CreatePanorama">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a Panorama. Very first method during file upload.</wsdl:documentation>
+      <wsdl:input message="tns:CreatePanoramaSoapIn" />
+      <wsdl:output message="tns:CreatePanoramaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddPanoramaPhoto">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a photo to a panorama.</wsdl:documentation>
+      <wsdl:input message="tns:AddPanoramaPhotoSoapIn" />
+      <wsdl:output message="tns:AddPanoramaPhotoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CommitPanorama">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Commits an in-progress panorama.</wsdl:documentation>
+      <wsdl:input message="tns:CommitPanoramaSoapIn" />
+      <wsdl:output message="tns:CommitPanoramaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelPanorama">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an in-progress panorama.</wsdl:documentation>
+      <wsdl:input message="tns:CancelPanoramaSoapIn" />
+      <wsdl:output message="tns:CancelPanoramaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a synth. Very first method during file upload.</wsdl:documentation>
+      <wsdl:input message="tns:CreateSynthSoapIn" />
+      <wsdl:output message="tns:CreateSynthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSynthPhoto">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Verify with server-side manifest file whether a file needs to be uploaded.</wsdl:documentation>
+      <wsdl:input message="tns:AddSynthPhotoSoapIn" />
+      <wsdl:output message="tns:AddSynthPhotoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CommitSynth">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Verify with server-side manifest file whether a file needs to be uploaded.</wsdl:documentation>
+      <wsdl:input message="tns:CommitSynthSoapIn" />
+      <wsdl:output message="tns:CommitSynthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelSynth">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an in-progress synth.</wsdl:documentation>
+      <wsdl:input message="tns:CancelSynthSoapIn" />
+      <wsdl:output message="tns:CancelSynthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns server information need for upload to the client.</wsdl:documentation>
+      <wsdl:input message="tns:GetServerInfoSoapIn" />
+      <wsdl:output message="tns:GetServerInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsClientUpdateRequired">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns information to client whether an upgrade is required.</wsdl:documentation>
+      <wsdl:input message="tns:IsClientUpdateRequiredSoapIn" />
+      <wsdl:output message="tns:IsClientUpdateRequiredSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns information to client about user standing, quota and consumption.</wsdl:documentation>
+      <wsdl:input message="tns:GetUserStatusSoapIn" />
+      <wsdl:output message="tns:GetUserStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RevertEdit">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Revert an edited synth back to its original state.</wsdl:documentation>
+      <wsdl:input message="tns:RevertEditSoapIn" />
+      <wsdl:output message="tns:RevertEditSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Callback handler for unpack messages coming from the origin server.</wsdl:documentation>
+      <wsdl:input message="tns:ReportUploadStatusSoapIn" />
+      <wsdl:output message="tns:ReportUploadStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves a specific collection.  No associated photo returned.</wsdl:documentation>
+      <wsdl:input message="tns:GetCollectionSoapIn" />
+      <wsdl:output message="tns:GetCollectionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollectionStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves the current status of the collection specified.</wsdl:documentation>
+      <wsdl:input message="tns:GetCollectionStatusSoapIn" />
+      <wsdl:output message="tns:GetCollectionStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollectionData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments embed count and returns CollectionResult.</wsdl:documentation>
+      <wsdl:input message="tns:GetCollectionDataSoapIn" />
+      <wsdl:output message="tns:GetCollectionDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the view count for a specific synth.</wsdl:documentation>
+      <wsdl:input message="tns:IncrementSynthViewCountSoapIn" />
+      <wsdl:output message="tns:IncrementSynthViewCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeotag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes geo alignment data and a geo push pin from a synth. If alignmentOnly is true the geo push pin is not removed</wsdl:documentation>
+      <wsdl:input message="tns:DeleteGeotagSoapIn" />
+      <wsdl:output message="tns:DeleteGeotagSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Refreshes any cached data within this service.</wsdl:documentation>
+      <wsdl:input message="tns:RefreshServiceSoapIn" />
+      <wsdl:output message="tns:RefreshServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns "OK" on successful ping</wsdl:documentation>
+      <wsdl:input message="tns:PingSoapIn" />
+      <wsdl:output message="tns:PingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shows the current stats of this service.</wsdl:documentation>
+      <wsdl:input message="tns:GetWebServiceStatsSoapIn" />
+      <wsdl:output message="tns:GetWebServiceStatsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PhotosynthServiceHttpGet">
+    <wsdl:operation name="CreatePanorama">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a Panorama. Very first method during file upload.</wsdl:documentation>
+      <wsdl:input message="tns:CreatePanoramaHttpGetIn" />
+      <wsdl:output message="tns:CreatePanoramaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a synth. Very first method during file upload.</wsdl:documentation>
+      <wsdl:input message="tns:CreateSynthHttpGetIn" />
+      <wsdl:output message="tns:CreateSynthHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns server information need for upload to the client.</wsdl:documentation>
+      <wsdl:input message="tns:GetServerInfoHttpGetIn" />
+      <wsdl:output message="tns:GetServerInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Callback handler for unpack messages coming from the origin server.</wsdl:documentation>
+      <wsdl:input message="tns:ReportUploadStatusHttpGetIn" />
+      <wsdl:output message="tns:ReportUploadStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves a specific collection.  No associated photo returned.</wsdl:documentation>
+      <wsdl:input message="tns:GetCollectionHttpGetIn" />
+      <wsdl:output message="tns:GetCollectionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the view count for a specific synth.</wsdl:documentation>
+      <wsdl:input message="tns:IncrementSynthViewCountHttpGetIn" />
+      <wsdl:output message="tns:IncrementSynthViewCountHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Refreshes any cached data within this service.</wsdl:documentation>
+      <wsdl:input message="tns:RefreshServiceHttpGetIn" />
+      <wsdl:output message="tns:RefreshServiceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns "OK" on successful ping</wsdl:documentation>
+      <wsdl:input message="tns:PingHttpGetIn" />
+      <wsdl:output message="tns:PingHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shows the current stats of this service.</wsdl:documentation>
+      <wsdl:input message="tns:GetWebServiceStatsHttpGetIn" />
+      <wsdl:output message="tns:GetWebServiceStatsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PhotosynthServiceHttpPost">
+    <wsdl:operation name="CreatePanorama">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a Panorama. Very first method during file upload.</wsdl:documentation>
+      <wsdl:input message="tns:CreatePanoramaHttpPostIn" />
+      <wsdl:output message="tns:CreatePanoramaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a synth. Very first method during file upload.</wsdl:documentation>
+      <wsdl:input message="tns:CreateSynthHttpPostIn" />
+      <wsdl:output message="tns:CreateSynthHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns server information need for upload to the client.</wsdl:documentation>
+      <wsdl:input message="tns:GetServerInfoHttpPostIn" />
+      <wsdl:output message="tns:GetServerInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Callback handler for unpack messages coming from the origin server.</wsdl:documentation>
+      <wsdl:input message="tns:ReportUploadStatusHttpPostIn" />
+      <wsdl:output message="tns:ReportUploadStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves a specific collection.  No associated photo returned.</wsdl:documentation>
+      <wsdl:input message="tns:GetCollectionHttpPostIn" />
+      <wsdl:output message="tns:GetCollectionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Increments the view count for a specific synth.</wsdl:documentation>
+      <wsdl:input message="tns:IncrementSynthViewCountHttpPostIn" />
+      <wsdl:output message="tns:IncrementSynthViewCountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Refreshes any cached data within this service.</wsdl:documentation>
+      <wsdl:input message="tns:RefreshServiceHttpPostIn" />
+      <wsdl:output message="tns:RefreshServiceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns "OK" on successful ping</wsdl:documentation>
+      <wsdl:input message="tns:PingHttpPostIn" />
+      <wsdl:output message="tns:PingHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Shows the current stats of this service.</wsdl:documentation>
+      <wsdl:input message="tns:GetWebServiceStatsHttpPostIn" />
+      <wsdl:output message="tns:GetWebServiceStatsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PhotosynthServiceSoap" type="tns:PhotosynthServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreatePanorama">
+      <soap:operation soapAction="http://labs.live.com/CreatePanorama" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPanoramaPhoto">
+      <soap:operation soapAction="http://labs.live.com/AddPanoramaPhoto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CommitPanorama">
+      <soap:operation soapAction="http://labs.live.com/CommitPanorama" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelPanorama">
+      <soap:operation soapAction="http://labs.live.com/CancelPanorama" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <soap:operation soapAction="http://labs.live.com/CreateSynth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSynthPhoto">
+      <soap:operation soapAction="http://labs.live.com/AddSynthPhoto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CommitSynth">
+      <soap:operation soapAction="http://labs.live.com/CommitSynth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelSynth">
+      <soap:operation soapAction="http://labs.live.com/CancelSynth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <soap:operation soapAction="http://labs.live.com/GetServerInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsClientUpdateRequired">
+      <soap:operation soapAction="http://labs.live.com/IsClientUpdateRequired" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStatus">
+      <soap:operation soapAction="http://labs.live.com/GetUserStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RevertEdit">
+      <soap:operation soapAction="http://labs.live.com/RevertEdit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <soap:operation soapAction="http://labs.live.com/ReportUploadStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <soap:operation soapAction="http://labs.live.com/GetCollection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollectionStatus">
+      <soap:operation soapAction="http://labs.live.com/GetCollectionStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollectionData">
+      <soap:operation soapAction="http://labs.live.com/GetCollectionData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <soap:operation soapAction="http://labs.live.com/IncrementSynthViewCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeotag">
+      <soap:operation soapAction="http://labs.live.com/DeleteGeotag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <soap:operation soapAction="http://labs.live.com/RefreshService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <soap:operation soapAction="http://labs.live.com/Ping" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <soap:operation soapAction="http://labs.live.com/GetWebServiceStats" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhotosynthServiceSoap12" type="tns:PhotosynthServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreatePanorama">
+      <soap12:operation soapAction="http://labs.live.com/CreatePanorama" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPanoramaPhoto">
+      <soap12:operation soapAction="http://labs.live.com/AddPanoramaPhoto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CommitPanorama">
+      <soap12:operation soapAction="http://labs.live.com/CommitPanorama" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelPanorama">
+      <soap12:operation soapAction="http://labs.live.com/CancelPanorama" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <soap12:operation soapAction="http://labs.live.com/CreateSynth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSynthPhoto">
+      <soap12:operation soapAction="http://labs.live.com/AddSynthPhoto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CommitSynth">
+      <soap12:operation soapAction="http://labs.live.com/CommitSynth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelSynth">
+      <soap12:operation soapAction="http://labs.live.com/CancelSynth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <soap12:operation soapAction="http://labs.live.com/GetServerInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsClientUpdateRequired">
+      <soap12:operation soapAction="http://labs.live.com/IsClientUpdateRequired" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStatus">
+      <soap12:operation soapAction="http://labs.live.com/GetUserStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RevertEdit">
+      <soap12:operation soapAction="http://labs.live.com/RevertEdit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <soap12:operation soapAction="http://labs.live.com/ReportUploadStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <soap12:operation soapAction="http://labs.live.com/GetCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollectionStatus">
+      <soap12:operation soapAction="http://labs.live.com/GetCollectionStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCollectionData">
+      <soap12:operation soapAction="http://labs.live.com/GetCollectionData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <soap12:operation soapAction="http://labs.live.com/IncrementSynthViewCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGeotag">
+      <soap12:operation soapAction="http://labs.live.com/DeleteGeotag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <soap12:operation soapAction="http://labs.live.com/RefreshService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <soap12:operation soapAction="http://labs.live.com/Ping" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <soap12:operation soapAction="http://labs.live.com/GetWebServiceStats" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhotosynthServiceHttpGet" type="tns:PhotosynthServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="CreatePanorama">
+      <http:operation location="/CreatePanorama" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <http:operation location="/CreateSynth" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <http:operation location="/GetServerInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <http:operation location="/ReportUploadStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <http:operation location="/GetCollection" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <http:operation location="/IncrementSynthViewCount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <http:operation location="/RefreshService" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <http:operation location="/Ping" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <http:operation location="/GetWebServiceStats" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhotosynthServiceHttpPost" type="tns:PhotosynthServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="CreatePanorama">
+      <http:operation location="/CreatePanorama" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateSynth">
+      <http:operation location="/CreateSynth" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerInfo">
+      <http:operation location="/GetServerInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportUploadStatus">
+      <http:operation location="/ReportUploadStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="GetCollection">
+      <http:operation location="/GetCollection" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IncrementSynthViewCount">
+      <http:operation location="/IncrementSynthViewCount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="RefreshService">
+      <http:operation location="/RefreshService" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Ping">
+      <http:operation location="/Ping" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWebServiceStats">
+      <http:operation location="/GetWebServiceStats" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PhotosynthService">
+    <wsdl:port name="PhotosynthServiceSoap" binding="tns:PhotosynthServiceSoap">
+      <soap:address location="http://photosynth.net/photosynthws/PhotosynthService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhotosynthServiceSoap12" binding="tns:PhotosynthServiceSoap12">
+      <soap12:address location="http://photosynth.net/photosynthws/PhotosynthService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhotosynthServiceHttpGet" binding="tns:PhotosynthServiceHttpGet">
+      <http:address location="http://photosynth.net/photosynthws/PhotosynthService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhotosynthServiceHttpPost" binding="tns:PhotosynthServiceHttpPost">
+      <http:address location="http://photosynth.net/photosynthws/PhotosynthService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
