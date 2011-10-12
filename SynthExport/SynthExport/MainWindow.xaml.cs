@@ -208,9 +208,37 @@ namespace SynthExport
 
                         // and save max script 
                         coordSystem.CameraParameterList.ExportAsMaxScript(fileName);
+
                     }
 
                     MessageBox.Show("The camera parameters have been exported.", "Export completed", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    dataExported = true;
+                }
+            }
+
+
+            if (exportSettings.ExportMaxScriptPos)
+            {
+                
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+                saveFileDialog.Title = "Save 3DS Max camera position setup";
+                saveFileDialog.Filter = "MaxScript (*.ms)|*.ms";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    foreach (CoordinateSystem coordSystem in coordSystemsToExport)
+                    {
+                        string name = saveFileDialog.SafeFileName.Substring(0, saveFileDialog.SafeFileName.Length - 3); 
+                        
+                        string fileName = saveFileDialog.FileName.Insert(saveFileDialog.FileName.Length - 3, "-positions_" + coordSystem.ID);
+
+                        // save just camera positions
+                        coordSystem.CameraParameterList.ExportAsMaxScriptJustCameras(fileName, name);
+                    }
+
+                    MessageBox.Show("The camera positions have been exported.", "Export completed", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     dataExported = true;
                 }
@@ -318,14 +346,15 @@ namespace SynthExport
                 bool exportPointClouds = checkBoxPointClouds.IsChecked == true;
                 bool exportCameraParameters = checkBoxCameraParameters.IsChecked == true;
                 bool exportMaxScript = checkBoxMaxScript.IsChecked == true;
+                bool exportMaxScriptPos = checkBoxMaxScriptPos.IsChecked == true;
 
-                if (!exportPointClouds && !exportCameraParameters && !exportMaxScript)
+                if (!exportPointClouds && !exportCameraParameters && !exportMaxScript && !exportMaxScriptPos)
                 {
                     MessageBox.Show("You haven't selected the data you want to export. You can export point clouds, camera parameters or both.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                ExportSettings exportSettings = new ExportSettings(exportSource, sourcePath, exportPointClouds, exportCameraParameters, exportMaxScript);
+                ExportSettings exportSettings = new ExportSettings(exportSource, sourcePath, exportPointClouds, exportCameraParameters, exportMaxScript, exportMaxScriptPos);
 
                 StartExport();
 

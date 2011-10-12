@@ -59,7 +59,7 @@
         </GroupBox>
 
         <GroupBox Name="groupBox2" Grid.Row="2" Header="Step 2: Select data to export" Margin="5,0">
-            <StackPanel Margin="5" Height="90">
+            <StackPanel Margin="5" Height="110">
                 <CheckBox Name="checkBoxPointClouds" Grid.Row="0" Grid.Column="0" Content="Point clouds" VerticalAlignment="Center" />
 
                 <StackPanel Orientation="Horizontal" Margin="25,5,5,5" IsEnabled="{Binding ElementName=checkBoxPointClouds, Path=IsChecked}">                
@@ -76,6 +76,7 @@
                 
                 <CheckBox Name="checkBoxCameraParameters" Grid.Row="1" Grid.Column="0" Content="Camera parameters" VerticalAlignment="Center" />
                 <CheckBox Content="3DS Max Camera Projections" Grid.Column="0" Grid.Row="1" Name="checkBoxMaxScript" Checked="checkBox1_Checked" />
+                <CheckBox Content="3DS Max Camera positions" Grid.Column="0" Grid.Row="1" Name="checkBoxMaxScriptPos" />
             </StackPanel>
         </GroupBox>
 

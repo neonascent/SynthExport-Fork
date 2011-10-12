@@ -137,6 +137,117 @@ namespace SynthExport
             }
         }
 
+        public void ExportAsMaxScriptJustCameras(string path, string setName)
+        {
+
+
+            using (StreamWriter streamWriter = new StreamWriter(path))
+            {
+
+                int totalcameras = cameraParameterList.Count;
+
+                streamWriter.WriteLine("/* 3DS Max Camera Exporter by Josh Harle (http://tacticalspace.org) */");
+                streamWriter.WriteLine("if queryBox \"Before running, make sure your mesh object is named 'object_"+setName+"'. Have you done this?\" beep:true then (");
+                streamWriter.WriteLine();
+                //streamWriter.WriteLine("/*  Enable initial camera states below; 1 = enabled, 0 = disabled */");
+                streamWriter.WriteLine();
+                //streamWriter.WriteLine("messageBox \"3DS Max Camera and Projection Map Exporter by Josh Harle (http://tacticalspace.org)\"");
+                streamWriter.WriteLine();
+
+                //foreach (CameraParameters parameters in cameraParameterList)
+                //{
+                //    streamWriter.WriteLine("Enable_Camera_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + " = 1");
+                //}
+                streamWriter.WriteLine();
+                streamWriter.WriteLine("progressstart \"Adding Cameras and Camera Maps\"");
+                streamWriter.WriteLine();
+                streamWriter.WriteLine("startCamera = matrix3 [1,0,0] [0,-1,0] [0,0,-1] [0,0,0]");
+                streamWriter.WriteLine("sideCamera = matrix3 [0,1,0] [1,0,0] [0,0,-1] [0,0,0]");
+                streamWriter.WriteLine("t = matrix3 [1,0,0] [0,1,0] [0,0,1] [0,0,0]");
+                streamWriter.WriteLine("R = matrix3 [1,0,0] [0,1,0] [0,0,1] [0,0,0]");
+                streamWriter.WriteLine();
+
+                foreach (CameraParameters parameters in cameraParameterList)
+                {
+
+
+                    streamWriter.WriteLine("progressupdate (100.0*" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + "/" + totalcameras.ToString() + ")");
+                    // matrix
+                    //http://photosynth.net/view.aspx?cid=84daebb1-557f-48f6-b88d-a8566849e88c
+
+                    streamWriter.Write("Camera");
+                    streamWriter.Write(parameters.ImageId.ToString(CultureInfo.InvariantCulture));
+                    //streamWriter.WriteLine(" = freecamera()");
+                    streamWriter.Write(" = ");
+                    streamWriter.WriteLine("freecamera name: \"" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + "_" + setName +"\"");
+
+                    streamWriter.WriteLine("Camera" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + ".fov = cameraFOV.MMtoFOV " + (35 * parameters.FocalLength).ToString(CultureInfo.InvariantCulture));
+
+                    streamWriter.Write("R.row1 = [");
+                    streamWriter.Write((parameters.Rotation.Matrix[0, 0]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[0, 1]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[0, 2]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("]");
+
+                    //myTransform.row2 = [10.0,20.0,30.0] 
+                    streamWriter.Write("R.row2 = [");
+                    streamWriter.Write((parameters.Rotation.Matrix[1, 0]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[1, 1]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[1, 2]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("]");
+
+                    //myTransform.row3 = [10.0,20.0,30.0] 
+                    streamWriter.Write("R.row3 = [");
+                    streamWriter.Write((parameters.Rotation.Matrix[2, 0]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[2, 1]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[2, 2]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("]");
+
+
+                    //myTransform.row4 = [10.0,20.0,30.0] 
+                    streamWriter.Write("t.row4 = [");
+                    streamWriter.Write(parameters.Position.X.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write(parameters.Position.Y.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write(parameters.Position.Z.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("] ");
+
+                    //$Teapot01.transform = myTransform
+                    string cameratype = "startCamera";
+                    string wAngle = "0";
+                    if (parameters.AspectRatio < 1)
+                    {
+                        cameratype = "sideCamera";
+                        wAngle = "-90";
+                    }
+
+                    streamWriter.WriteLine("Camera" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + ".transform = " + cameratype + " * R * t");
+                    streamWriter.WriteLine("");
+
+
+                }
+
+                               
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("progressend()");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("selectionSets[\"" + setName + "\"] = $*_" + setName + " --all the current objects named \"*_" + setName + "\"");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("");
+
+                streamWriter.WriteLine("messageBox \"Cameras added!\"");
+                streamWriter.WriteLine(")");
+            }
+        }
+
         public void ExportAsMaxScript(string path)
         {
 
