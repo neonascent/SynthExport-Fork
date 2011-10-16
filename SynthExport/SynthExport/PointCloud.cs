@@ -95,8 +95,9 @@ namespace SynthExport
         public bool ExportCameraParameters { get; private set; }
         public bool ExportMaxScript { get; private set; }
         public bool ExportMaxScriptPos { get; private set; }
+        public bool ExportMaxScriptSpheres { get; private set; }
 
-        public ExportSettings(ExportSource source, string sourcePath, bool exportPointClouds, bool exportCameraParameters, bool exportMaxScript, bool exportMaxScriptPos)
+        public ExportSettings(ExportSource source, string sourcePath, bool exportPointClouds, bool exportCameraParameters, bool exportMaxScript, bool exportMaxScriptPos, bool exportMaxScriptSpheres)
         {
             Source = source;
             SourcePath = sourcePath;
@@ -104,6 +105,7 @@ namespace SynthExport
             ExportCameraParameters = exportCameraParameters;
             ExportMaxScript = exportMaxScript;
             ExportMaxScriptPos = exportMaxScriptPos;
+            ExportMaxScriptSpheres = exportMaxScriptSpheres;
         }
     }
 

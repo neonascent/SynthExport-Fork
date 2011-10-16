@@ -248,6 +248,171 @@ namespace SynthExport
             }
         }
 
+        public void ExportAsMaxScriptSensorSpheres(string path, string setName)
+        {
+
+
+            using (StreamWriter streamWriter = new StreamWriter(path))
+            {
+
+                int totalcameras = cameraParameterList.Count;
+
+                streamWriter.WriteLine("/* 3DS Max Sensor Value Spheres by Josh Harle (http://tacticalspace.org) */");
+                streamWriter.WriteLine("if queryBox \"We will extract EXIF data from images downloaded by PhotoSynth Toolkit 7.  This might take a while.  Are you ready?\" beep:true then (");
+                streamWriter.WriteLine();
+                streamWriter.WriteLine();
+                streamWriter.WriteLine();
+
+                streamWriter.WriteLine();
+                streamWriter.WriteLine("progressstart \"Adding Cameras and Camera Maps\"");
+                streamWriter.WriteLine();
+                streamWriter.WriteLine("startCamera = matrix3 [1,0,0] [0,-1,0] [0,0,-1] [0,0,0]");
+                streamWriter.WriteLine("sideCamera = matrix3 [0,1,0] [1,0,0] [0,0,-1] [0,0,0]");
+                streamWriter.WriteLine("t = matrix3 [1,0,0] [0,1,0] [0,0,1] [0,0,0]");
+                streamWriter.WriteLine("R = matrix3 [1,0,0] [0,1,0] [0,0,1] [0,0,0]");
+                streamWriter.WriteLine();
+
+                // extract EXIF data
+                streamWriter.WriteLine("/*  EXIF stuff inspired by: http://www.preset.de/3dsMAX/jpegExif/ */");
+                streamWriter.WriteLine();
+                streamWriter.WriteLine("theLogName = getOpenFileName caption:\"Locate your PhotoSynth2PMVS.log file...\" types:\"PhotoSynth2PMVS.log|PhotoSynth2PMVS.log\"");
+                streamWriter.WriteLine("theAppPath = getOpenFileName caption:\"Locate your EXIFTOOLS executable...\" types:\"Executable (*.exe)|*.exe\"");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("camera_altitude = #()");
+                streamWriter.WriteLine("min_value = 9999;");
+                streamWriter.WriteLine("max_value = -9999;");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("in_file = openFile theLogName;");
+                streamWriter.WriteLine("numcameras = readLine in_file;");
+                streamWriter.WriteLine("numcameras = (filterstring numcameras \" \")[1]  as integer /*   \"287 pictures in CoordSystem 0\"   */");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("for v = 1 to numcameras do");
+                streamWriter.WriteLine("(");
+                streamWriter.WriteLine("	/* get image's exif data */");
+                streamWriter.WriteLine("	filename = (filterstring (readLine in_file) \" \")[2]");
+                streamWriter.WriteLine("	command = \"\\\"\" + theAppPath + \"\\\"  -GPSAltitude  \\\"\" + filename + \"\\\" >  \\\"\" + filename + \".log\\\" \"");
+                streamWriter.WriteLine("	HiddenDOSCommand (command)");
+                streamWriter.WriteLine("	exifdata_file = openFile (filename + \".log\");");
+                streamWriter.WriteLine("	exif_line = readLine exifdata_file");
+                streamWriter.WriteLine("	camera_altitude[v] = (filterstring exif_line \" \")[4]  as integer");
+                streamWriter.WriteLine("	if (camera_altitude[v] < min_value) do min_value = camera_altitude[v];");
+                streamWriter.WriteLine("	if (camera_altitude[v] > max_value) do max_value = camera_altitude[v];");
+                streamWriter.WriteLine("	close exifdata_file;");
+                streamWriter.WriteLine(")");
+                streamWriter.WriteLine("close in_file");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("");
+
+
+                // colour converter function
+                streamWriter.WriteLine("/* colour converter function */");
+                streamWriter.WriteLine("fn HSV_to_RGB hsv = ");
+                streamWriter.WriteLine("(");
+                streamWriter.WriteLine("hsv /= 255");
+                streamWriter.WriteLine("h = hsv.x*6");
+                streamWriter.WriteLine("i = h as integer");
+                streamWriter.WriteLine("k = if (mod i 2) == 1 then (h-i) else (1-h+i)");
+                streamWriter.WriteLine("m = hsv.z*(1-hsv.y)");
+                streamWriter.WriteLine("n = hsv.z*(1-hsv.y*k)");
+                streamWriter.WriteLine("case i of");
+                streamWriter.WriteLine("(");
+                streamWriter.WriteLine("1: [n, hsv.z, m]*255");
+                streamWriter.WriteLine("2: [m, hsv.z, n]*255");
+                streamWriter.WriteLine("3: [m, n, hsv.z]*255");
+                streamWriter.WriteLine("4: [n, m, hsv.z]*255");
+                streamWriter.WriteLine("5: [hsv.z, m, n]*255");
+                streamWriter.WriteLine("default: [hsv.z, n, m]*255");
+                streamWriter.WriteLine(")");
+                streamWriter.WriteLine(")");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("");
+
+
+                foreach (CameraParameters parameters in cameraParameterList)
+                {
+
+
+                    streamWriter.WriteLine("progressupdate (100.0*" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + "/" + totalcameras.ToString() + ")");
+                    // matrix
+                    //http://photosynth.net/view.aspx?cid=84daebb1-557f-48f6-b88d-a8566849e88c
+
+                    streamWriter.Write("Sphere");
+                    streamWriter.Write(parameters.ImageId.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(" = ");
+                    streamWriter.WriteLine("Sphere name: \"" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + "_" + setName + "\" radius: 0.005");
+                    streamWriter.WriteLine("RGBcolor = HSV_to_RGB [((camera_altitude["+(parameters.ImageId + 1).ToString(CultureInfo.InvariantCulture)+"] - min_value) * 255) / (max_value - min_value),255,255];");
+                    streamWriter.WriteLine("Sphere" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + ".material = standardMaterial diffuse_Color: (color RGBcolor[1] RGBcolor[2] RGBcolor[3]) opacity: 20 showInViewport: true");
+                    streamWriter.Write("Sphere_Text");
+                    streamWriter.Write(parameters.ImageId.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(" = ");
+                    streamWriter.WriteLine("Text text: (camera_altitude["+(parameters.ImageId + 1).ToString(CultureInfo.InvariantCulture)+"] as string) size: 0.0025 ");
+
+                     streamWriter.Write("R.row1 = [");
+                    streamWriter.Write((parameters.Rotation.Matrix[0, 0]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[0, 1]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[0, 2]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("]");
+
+                    //myTransform.row2 = [10.0,20.0,30.0] 
+                    streamWriter.Write("R.row2 = [");
+                    streamWriter.Write((parameters.Rotation.Matrix[1, 0]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[1, 1]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[1, 2]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("]");
+
+                    //myTransform.row3 = [10.0,20.0,30.0] 
+                    streamWriter.Write("R.row3 = [");
+                    streamWriter.Write((parameters.Rotation.Matrix[2, 0]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[2, 1]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write((parameters.Rotation.Matrix[2, 2]).ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("]");
+
+
+                    //myTransform.row4 = [10.0,20.0,30.0] 
+                    streamWriter.Write("t.row4 = [");
+                    streamWriter.Write(parameters.Position.X.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write(parameters.Position.Y.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.Write(", ");
+                    streamWriter.Write(parameters.Position.Z.ToString(CultureInfo.InvariantCulture));
+                    streamWriter.WriteLine("] ");
+
+                    //$Teapot01.transform = myTransform
+                    string cameratype = "startCamera";
+                    string wAngle = "0";
+                    if (parameters.AspectRatio < 1)
+                    {
+                        cameratype = "sideCamera";
+                        wAngle = "-90";
+                    }
+
+                    streamWriter.WriteLine("Sphere" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + ".transform = " + cameratype + " * R * t");
+                    streamWriter.WriteLine("Sphere_Text" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + ".transform = " + cameratype + " * R * t");
+                    streamWriter.WriteLine("");
+
+
+                }
+
+
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("progressend()");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("selectionSets[\"" + setName + "\"] = $*_" + setName + " --all the current objects named \"*_" + setName + "\"");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("");
+                streamWriter.WriteLine("");
+
+                streamWriter.WriteLine("messageBox \"Sensor points added!\"");
+                streamWriter.WriteLine(")");
+            }
+        }
+
         public void ExportAsMaxScript(string path)
         {
 

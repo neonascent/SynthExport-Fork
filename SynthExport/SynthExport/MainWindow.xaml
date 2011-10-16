@@ -77,6 +77,7 @@
                 <CheckBox Name="checkBoxCameraParameters" Grid.Row="1" Grid.Column="0" Content="Camera parameters" VerticalAlignment="Center" />
                 <CheckBox Content="3DS Max Camera Projections" Grid.Column="0" Grid.Row="1" Name="checkBoxMaxScript" Checked="checkBox1_Checked" />
                 <CheckBox Content="3DS Max Camera positions" Grid.Column="0" Grid.Row="1" Name="checkBoxMaxScriptPos" />
+                <CheckBox Content="3DS Max Sensor Values" Grid.Column="0" Grid.Row="1" Name="checkBoxMaxScriptSpheres" />
             </StackPanel>
         </GroupBox>
 

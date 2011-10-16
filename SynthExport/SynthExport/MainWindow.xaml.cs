@@ -244,6 +244,32 @@ namespace SynthExport
                 }
             }
 
+            if (exportSettings.ExportMaxScriptSpheres)
+            {
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+                saveFileDialog.Title = "Save 3DS Max sensor value spheres";
+                saveFileDialog.Filter = "MaxScript (*.ms)|*.ms";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    foreach (CoordinateSystem coordSystem in coordSystemsToExport)
+                    {
+                        string name = saveFileDialog.SafeFileName.Substring(0, saveFileDialog.SafeFileName.Length - 3);
+
+                        string fileName = saveFileDialog.FileName.Insert(saveFileDialog.FileName.Length - 3, "-sensor_values_" + coordSystem.ID);
+
+                        // save just camera positions
+                        coordSystem.CameraParameterList.ExportAsMaxScriptSensorSpheres(fileName, name);
+                    }
+
+                    MessageBox.Show("The sensor values have been exported.", "Export completed", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    dataExported = true;
+                }
+            }
+
             EndExport(dataExported);
         }
 
@@ -347,14 +373,15 @@ namespace SynthExport
                 bool exportCameraParameters = checkBoxCameraParameters.IsChecked == true;
                 bool exportMaxScript = checkBoxMaxScript.IsChecked == true;
                 bool exportMaxScriptPos = checkBoxMaxScriptPos.IsChecked == true;
+                bool exportMaxScriptSpheres = checkBoxMaxScriptSpheres.IsChecked == true;
 
-                if (!exportPointClouds && !exportCameraParameters && !exportMaxScript && !exportMaxScriptPos)
+                if (!exportPointClouds && !exportCameraParameters && !exportMaxScript && !exportMaxScriptPos && !exportMaxScriptSpheres)
                 {
                     MessageBox.Show("You haven't selected the data you want to export. You can export point clouds, camera parameters or both.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                ExportSettings exportSettings = new ExportSettings(exportSource, sourcePath, exportPointClouds, exportCameraParameters, exportMaxScript, exportMaxScriptPos);
+                ExportSettings exportSettings = new ExportSettings(exportSource, sourcePath, exportPointClouds, exportCameraParameters, exportMaxScript, exportMaxScriptPos, exportMaxScriptSpheres);
 
                 StartExport();
 
