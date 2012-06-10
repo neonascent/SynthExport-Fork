@@ -435,7 +435,7 @@ namespace SynthExport
                                 
                 foreach (CameraParameters parameters in cameraParameterList)
                 {
-                    streamWriter.WriteLine("Enable_Camera_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture)  + " = 1");
+                    streamWriter.WriteLine("Enable_Camera_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture)  + " = 0");
                 }
                 streamWriter.WriteLine();
                 streamWriter.WriteLine("progressstart \"Adding Cameras and Camera Maps\"");
@@ -456,7 +456,7 @@ namespace SynthExport
                     streamWriter.WriteLine("progressupdate (100.0*" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + "/" + totalcameras.ToString()+")");
                     // matrix
                     //http://photosynth.net/view.aspx?cid=84daebb1-557f-48f6-b88d-a8566849e88c
-
+                    streamWriter.WriteLine("if Enable_Camera_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + " == 1 then (");
                     streamWriter.Write("Camera");
                     streamWriter.Write(parameters.ImageId.ToString(CultureInfo.InvariantCulture));
                     //streamWriter.WriteLine(" = freecamera()");
@@ -536,7 +536,7 @@ namespace SynthExport
                     streamWriter.WriteLine("/* create standard map */");
 
                     streamWriter.WriteLine("m" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + " = standardMaterial name: \"material_" + parameters.ImageId.ToString("00000000") + "\" diffuseMap: cm_dif_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + " opacityMap: cmo_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + " showInViewport: true");
-                    
+                    streamWriter.WriteLine(")");
 
 
 
@@ -565,11 +565,11 @@ namespace SynthExport
 
                     }
 
+                    streamWriter.WriteLine("if Enable_Camera_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture) + " == 1 then (");
                     streamWriter.WriteLine(compositeMaterial+".materialList["+(materialNum+1).ToString()+"] = m"+parameters.ImageId.ToString(CultureInfo.InvariantCulture)+"");
                     streamWriter.WriteLine(compositeMaterial + ".amount[" + (materialNum).ToString() + "] = Default_Mix_Amount");
                     streamWriter.WriteLine(compositeMaterial + ".mixType[" + (materialNum).ToString() + "] = Default_Mix_Type");
-
-                    streamWriter.WriteLine("if Enable_Camera_" + parameters.ImageId.ToString(CultureInfo.InvariantCulture)+" != 1 do ( "+compositeMaterial+".mapEnables["+(materialNum+1).ToString()+"] = false )");
+                    streamWriter.WriteLine(")");
                     streamWriter.WriteLine("");
 	                materialNum++;
 	 
